@@ -45,14 +45,14 @@ It is possible to use `remote:bit` to simply control the micro:bit remotely for 
 # Known limitations
 
 * micro:bit UART is used for the communication between the host computer and the micro:bit, thus not available for applications running on the micro:bit.
-* Some methods are not implemented, because they are not practical or seemed to be rarely used. Non complete list:
+* Some methods are not implemented, because they are not practical or seemed to be rarely used. Not complete list:
 	* `neopixel`
 	* All `microphone` methods except `sound_level`
 	* All `os` methods except `uname`
 	* `radio.config`, `radio.receive_bytes_into`, `radio.receive_full`
 	* `SPI.write_readinto`
 * Some methods are implemented on the host computer, thus may yield slightly different results.
-* Because of of the memory limitations, micro:bit v1 only supports the following: pins, buttons, display, music.
+* Because of the memory limitations, micro:bit v1 only supports the following: pins, buttons, display, music (short melodies, longer may result in memory allocation errors).
 
 
 # How to
@@ -78,6 +78,8 @@ It is possible to use `remote:bit` to simply control the micro:bit remotely for 
 	This will create a new `microbit_v1_app.py` file that is the v1 subset of `microbit_app.py`
 	Then copy the file to the attached micro:bit using the `uflash` utility.
 
+_Note: You can use [Python editor](https://python.microbit.org/v/2) or [Mu](https://codewith.mu/) editor to copy the `microbit_v1_app.py` as well._
+
 ## Distinguish host vs micro:bit
 
 Use `os.uname()` to check the name of the system:
@@ -101,6 +103,16 @@ _Note: The call to `init_mb_link` is not portable, thus will not work on the mic
 
 The `PYTHONPATH` user environment variable needs to be set to point to the `remotebit\remotebit` folder where `microbit.py` is located. See e.g. [this tutorial](https://www.tenforums.com/tutorials/121855-edit-user-system-environment-variables-windows.html).
 
+Use of micro:bit v1 needs `microbit_v1_app.py` file to be generated using the `sed` utility which is not available on Windows. It can be created manually from the `microbit_app.py` by removing the lines between 
+
+	# mbv2_begin
+
+and
+
+	# mbv2_end
+
+lines.
+
 The code assumes that micro:bit is connected to `COM7` serial port. If this is not the case,
 the serial link needs to be initialized at the top of your script by calling `init_mb_link(serial_name_str)`.
 
@@ -108,15 +120,15 @@ _Note: The call to `init_mb_link` is not portable, thus will not work on the mic
 
 ## Troubleshoot
 
-Sometimes the host computer reports that micro:bit is not connected or access permission denied, refreshing MICROBIT volume in the file manager usually helps.
+1. Sometimes the host computer reports that micro:bit is not connected or access permission denied, refreshing MICROBIT volume in the file manager usually helps.
 
-If the micro:bit runs into an exception and goes into the Python prompt, pressing the micro:bit reset button usually helps.
+1. If the micro:bit runs into an exception and goes into the Python prompt, pressing the micro:bit reset button usually helps.
 
-Use `set_trace_serial(True)` to enable tracing of the messages to and from micro:bit to the console.
+1. Use `set_trace_serial(True)` to enable tracing of the messages to and from micro:bit to the console.
 
-Use `set_raise(True)` to enable raising exceptions in case of a communication error so that your code can handle it instead of the program terminating right away.
+1. Use `set_raise(True)` to enable raising exceptions in case of a communication error so that your code can handle it instead of the program terminating right away.
 
-You may need to run your editor or IDE from the terminal to make sure it inherits the PYTHONPATH environment variable to be able to support code completion for `remote:bit` modules, e.g. `code . &` to run Visual Studio Code in the current folder without blocking the terminal.
+1. You may need to run your editor or IDE from the terminal to make sure it inherits the PYTHONPATH environment variable to be able to support code completion for `remote:bit` modules, e.g. `code . &` to run Visual Studio Code in the current folder without blocking the terminal.
 
 ## Report issues
 
@@ -144,3 +156,5 @@ The protocol is a custom very simple text based one, which makes it possible to 
 `display.set_pixel` is the command name, `2 2 5` the list of parameters (x, y, brightness).
 
 `ok` is the response for commands that do not return any value, `5` is an example of the result response (brightness).
+
+Use `set_trace_serial(True)` to see all the messages sent to and from micro:bit in the console.
