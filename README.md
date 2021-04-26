@@ -1,7 +1,7 @@
 # `remote:bit`
 `remote:bit` is a remote Python execution library for [BBC micro:bit](https://microbit.org/).
 
-`remote:bit` allows developing MicroPython code on your host computer using your
+`remote:bit` allows developing [MicroPython](https://github.com/bbcmicrobit/micropython) code on your host computer using your
 favorite Python IDE, running and debugging the code on the host computer 
 while the micro:bit attached to USB executes all the commands.
 
@@ -64,7 +64,7 @@ It is possible to use `remote:bit` to simply control the micro:bit remotely for 
 * Copy the `microbit_app/microbit_app.py` to the micro:bit using one of
 	* [Python editor](https://python.microbit.org/v/2)
 	* [Mu](https://codewith.mu/) editor
-* Create a Python script in your IDE
+* Create a Python script in your IDE, refer to the [MicroPython](https://microbit-micropython.readthedocs.io/en/v2-docs/) documentation for details
 * Run or debug the script in the IDE - micro:bit will execute the commands
 * When you are happy with your script you may copy it to the micro:bit as usual
 
